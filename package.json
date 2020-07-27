@@ -1,0 +1,21 @@
+{
+  "name": "amr-eraky-blog-project",
+  "version": "1.0.0",
+  "description": "Blog-Project\r Overview\r This is a blog test using html, css, JavaScript and bootstrap 4. The content (back-end) using JavaScript and Firebase database. Security built by firebase functions. You can add/delete blogs/comments from admin page, if you are admin of course.",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "12.11.1"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
