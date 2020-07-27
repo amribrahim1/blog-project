@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BLOGS admin</title>
+    <link rel="stylesheet" href="css/admin-login.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="icon" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- getmdl.io snackbar -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="signform" id="LoginModal">
+    <div class="login-page">
+        <div class="form">
+          <form class="login-form needs-validation" id="LoginForm" name="LoginForm">
+            <h1>Admin login</h1><br>
+            <input type="email" class="form-control" id="email" placeholder=" E-mail *" required>
+            <input type="password" class="form-control" id="password" placeholder="Password *" required>
+            <button type="submit" name="submit" id="quickstart-sign-up">login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<div class="container">
+  <h2>Amr Eraky Blog</h2>
+  <p>Admin Page:<br>You can add a blog, edit any blog, delete comments, show all users or add admins</p>
+  <nav class="navbar navbar-default ">
+  <ul style="width: 100%;" class="nav navbar-nav">
+    <li class="active"><a class="active" data-toggle="pill" href="#blogs">Blogs</a></li>
+    <li><a data-toggle="pill" href="#add-blog">add a blog</a></li>
+    <li><a data-toggle="pill" href="#Suggestions">Comments or Suggestions</a></li>
+    <li><a data-toggle="pill" href="#admins">Admins</a></li>
+    <li><a data-toggle="pill" href="#users">Users</a></li>
+    <li style="float:right"><button style="padding: 15px 30px;" class="btn btn-primary" data-toggle="pill" onclick="signout()">Sign-out</button></li>
+    <li style="float:right"><a data-toggle="pill" href="index.html">HOME</a></li>
+  </ul>
+</nav>
+  <br>
+  <div class="tab-content">
+    <div id="blogs" class="tab-pane fade in active">
+      <h3>Blogs</h3>
+      <div class="container"><div class="row" id="ex-list"></div></div>
+    </div>
+    <div id="add-blog" class="tab-pane fade">
+      <h3>add a blog</h3>
+      <form name="AddForm" id="addBlog">
+        <div class="form-group">
+          <label>blog Title</label>
+          <input type="text" class="form-control"  name="title" id="title" placeholder="Title" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" name="Description" id="Description" required placeholder="Description" rows="10"></textarea>
+        </div>
+        <div class="form-group">
+          <label>add a photo</label>
+          <input type="file" class="form-control-file" name="img" id="img" accept="image/*" required>
+        </div>
+        <div class="form-group">
+          <label>ID</label>
+          <input type="text" class="form-control" name="ID" id="id" disabled>
+          <div class="careful">Or choose id from existing blogs' IDs to replace it<br>
+            <strong>Be careful:</strong> If you want to add a new blog let this select empty.</div>
+            <select class="form-control" onchange="report()" id="selectID"></select>
+        </div>
+        <div class="alert alert-danger" style="display: none;" id="careful">
+          <strong>Alert!</strong> If you chose to replace a blog it will be deleted forever but not its comments.
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+    <div id="Suggestions" class="tab-pane fade">
+      <h3>Comments or Suggestions</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Comment</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="co-table"></tbody>
+      </table>
+    </div>
+    <div id="admins" class="tab-pane fade">
+      <h3>admins</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr style="text-align: center;">
+            <th>E-mail</th>
+            <th>Admin</th>
+            <th>Remove from admins</th>
+          </tr>
+        </thead>
+        <tbody id="admins-table"></tbody>
+      </table>
+      <form id="AddAdmin" name="AddAdmin" class="addAdmin">
+        <div class="form-group">
+          <label>Email address</label>
+          <input style="width: 50%;" type="email" class="form-control" name="adminEmail" id="adminEmail" required placeholder="Enter email">
+          </div>
+        <button type="submit" class="btn btn-primary">Make admin</button>
+      </form>
+    </div>
+    <div id="users" class="tab-pane fade">
+      <h3>Blog Users</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr style="text-align: center;">
+            <th>E-mail</th>
+            <th>User uid</th>
+            <th>Display name</th>
+            <th>Email verified</th>
+            <th>Admin</th>
+            <th>Last sign-in time</th>
+            <th>creation time</th>
+            <th>Update User</th>
+          </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar ">
+  <div class="mdl-snackbar__text"></div>
+  <button type="button" class="mdl-snackbar__action"></button>
+</div>
+
+<!-- getmdl.io snackbar -->
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+ <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-database.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-storage.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-functions.js"></script>
+
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <script>
+     var config = {
+         apiKey: "AIzaSyBmuP5pPMI3_68Ufn0Vj0-jjHSYeJ0xoz8",
+         authDomain: "task-7-6a1d5.firebaseapp.com",
+         databaseURL: "https://task-7-6a1d5.firebaseio.com",
+         projectId: "task-7-6a1d5",
+         storageBucket: "task-7-6a1d5.appspot.com",
+         messagingSenderId: "1049895519198",
+         appId: "1:1049895519198:web:dd74a62b5b660a51ba534f",
+         measurementId: "G-P6CQ0BDG29"
+     };
+     // Initialize Firebase
+     firebase.initializeApp(config);
+     const auth = firebase.auth();
+     const functions = firebase.functions();
+</script>
+<script src="script/openAdminPage.js"></script> 
+<script src="script/displayBlogsAdmin.js"></script> 
+ <script src="script/addBlog.js"></script>	
+ <script src="script/suggestions.js"></script>
+ <script src="script/admins.js"></script>
+ <script src="script/displayUsers.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+
+ * {box-sizing: border-box; }
+ html, body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+  padding-top: 56px;
+  background: url('https://source.unsplash.com/twukN12EN7c/1920x1080') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+#ex-list .card-text {
+  text-align:justify;
+}
+#module {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+#module #collapseExample.collapse:not(.show) {
+  display: block;
+  height: 3rem;
+  overflow: hidden;
+}
+
+#module #collapseExample.collapsing {
+  height: 3rem;
+}
+
+#module a.collapsed::after {
+  content: '+ Show More';
+}
+
+#module a:not(.collapsed)::after {
+  content: '- Show Less';
+}
+
+.comment {
+  margin-left: 30px;
+}
+.comment .fa-comments {
+  display: inline-block;
+}
+.comment h5 {
+  display: inline;
+  margin-left: 10px;
+}
+.comment p {
+  margin-left: 30px;
+}
+#add-comment {
+  width: 50%;
+  color: white;
+}
+
+.Suggestions {
+  margin: 10px 80px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: blanchedalmond;
+}
+.Suggestions h6 {
+  display: inline;
+}
+.Suggestions a {
+  color: white;
+}
+.Suggestions input, .Suggestions textarea  {
+  width: 70%;
+}
+.Suggestions p {
+  margin-left: 25px;
+}
+
+@media (max-width: 978px) {
+  .Suggestions {
+    margin: 10px;
+  }
+  .Suggestions input, .Suggestions textarea  {
+    width: 90%;
+  }
+}
+a, a:hover {
+  text-decoration: none;
+}
