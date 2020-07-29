@@ -5,96 +5,20 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot) {
     var content = '';
     snapshot.forEach(function(data){                      
         var val = data.val();
-        var blogID = val.id;
         content += `<div class="card mb-4">
-                        <div class="card-footer text-muted">Posted on ${val.date}</div>
-                        <img src=${val.ImageUrl} class="card-img-top">
-                        <div class="card-body" id="module">
+                        <img class="card-img-top" src="${val.ImageUrl}" title="${val.Title}" alt="${val.Title}">
+                        <div class="card-body">
                             <h2 class="card-title">${val.Title}</h2>
-                            <p class="card-text collapse" id="collapseExample" aria-expanded="false">${val.Description}</p>
-                            <a role="button" class="collapsed btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></a>
+                            <p class="card-text">${val.Description}</p>
+                            <a class="btn btn-primary" href="blogs/${val.Title}-${val.id}.html">Read More &rarr;</a>
                         </div>
-                        <div class="card my-4">
-                            <h5 class="card-header">Leave a Comment:</h5>
-                            <div class="card-body">
-                                <form id="${blogID}fo" class="card my-4">
-                                    <div class="form-group">
-                                        <input class="form-control" id="${blogID}n" type="text" placeholder="Your Name" required>
-                                        <p style="color:red;display:none;max-width: 100%;" class="alert alert-danger" id="${blogID}name">&#9888; Enter your name</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="3" id="${blogID}o" placeholder="Your Comment" required></textarea>
-                                        <p style="color:red;display: none;max-width: 100%;" class="alert alert-danger" id="${blogID}comment">&#9888; Write some thing</p>
-                                    </div>
-                                    <a id="add-comment" class="btn btn-primary" onclick="submitComment(${blogID})">add comment</a>
-                                </form>
-                            </div>
-                        </div>
-                        <div id="${blogID}c"></div>
-                    </div><hr><br>`;
-                                                               
-        firebase.database().ref(`comments/${blogID}/`).on('value',function(comments){
-            var content = "";
-            comments.forEach(function(firebaseCommentReference){
-                var comment = firebaseCommentReference.val();                         
-                content += `<div class="comment"><i class="fas fa-comments"></i><h5>${comment.Name}</h5><p>${comment.notes}</p></div>`;
-                
-            });
-            $(`#${blogID}c`).html(content);
-        });
+                        <div class="card-footer text-muted">Posted on ${val.date}</div>
+                    </div><hr>`;                                        
     });            
     $('#ex-list').html(content);          
 });
+// ---------------------------------------------------------------------- //
 
-
-    // ---------------------------------------------------------------------- //
-
-// add a comment for each blog only and display it under its blog
-function submitComment(blogID) {
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            if (document.getElementById(`${blogID}n`).value.length == 0) {
-                return false,
-                console.log('Write your name'),
-                document.getElementById(`${blogID}name`).style.display = "block",
-                document.getElementById(`${blogID}comment`).style.display = "none";
-            } 
-            if (document.getElementById(`${blogID}o`).value.length == 0) {
-                return false,
-                console.log('Write some thing'),
-                document.getElementById(`${blogID}name`).style.display = "none",
-                document.getElementById(`${blogID}comment`).style.display = "block";
-            } 
-            var firebaseOrders = database.ref().child('comments/'+ blogID +'/');
-            //Grab order data from the form
-            var comment = {
-                Name: $('#'+blogID+'n').val(),
-                notes: $('#'+blogID+'o').val(), //another way you could write is $('#myForm [name="fullname"]').
-            };
-                            
-            //'push' (aka add) your order to the existing list
-            firebaseOrders.push(comment); //'orders' is the name of the 'collection' (aka database table)
-            $('#'+blogID+'fo')[0].reset();
-            document.getElementById(''+blogID+'name').style.display = "none";
-            document.getElementById(''+blogID+'comment').style.display = "none";
-        } 
-        else {
-            var messege = document.querySelector('.mdl-js-snackbar');
-            var data = {
-                message: 'You must sign-in first',
-                actionHandler: function() {
-                    var modal = document.getElementById("myModal");
-                    modal.style.display = "block";
-                },
-                actionText: 'Sign-in',
-                timeout: 3000,
-              };
-              messege.MaterialSnackbar.showSnackbar(data);
-              return { error: 'Sign in first ?!' };
-        }
-    });
-};
-// -------------------------------------------------------------------------- //
 // add comments under all the blogs and display them.    		
 var database = firebase.database();
 		
@@ -105,28 +29,21 @@ var firebaseOrdersCollection = database.ref().child('BlogComments');
 function submitSuggestion() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-            if (document.getElementById('Name').value.length == 0) {
-                return false,
-                console.log('Write your name'),
-                document.getElementById('writeName').style.display = "block",
-                document.getElementById('writeComment').style.display = "none";
-              } 
               if (document.getElementById('Comment').value.length == 0) {
                 return false,
                 console.log('Write some thing'),
-                document.getElementById('writeComment').style.display = "block",
-                document.getElementById('writeName').style.display = "none";
+                document.getElementById('writeComment').style.display = "block";
               }
             //Grab order data from the form
             var order = {
-                fullName: $('#Name').val(), //another way you could write is $('#myForm [name="fullname"]').
-                notes: $('#Comment').val(), //another way you could write is $('#myForm [name="fullname"]').
+                fullName: user.displayName,
+                notes: $('#Comment').val(),
+                uid: user.uid, 
             };
     
             //'push' (aka add) your order to the existing list
             firebaseOrdersCollection.push(order); //'orders' is the name of the 'collection' (aka database table)
             $('#Suggestions')[0].reset();
-            document.getElementById('writeName').style.display = "none";
             document.getElementById('writeComment').style.display = "none";
     
         } else {
