@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+  <html lang="en">
+  
+  <head>
+  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Amr Eraky">
+    <link rel="icon" href="/favicon.png">
+  
+    <title></title>
+  
+    <!--Bootstrap 4 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  
+    <!-- Custom styles for this template -->
+    <link href="/css/blog-post.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
+  
+    <!-- getmdl.io snackbar -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  
+  <body>
+  
+    <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">AMR ERAKY BLOG</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+          <li id="profile" style="display: none;" class="nav-item">
+            <a class="btn btn-secondary" id="displayName" href="/User_profile.html"></a>
+          </li>&nbsp;
+          <li class="nav-item">
+            <button id="myBtn" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Sign in</button>
+          </li>
+          <li id="signoutBtn" style="display: none;" class="nav-item">
+            <button onclick="signOut()" class="btn btn-primary"><i class='fas fa-sign-out-alt'></i>&nbsp;&nbsp;Sign out</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Login Modal -->
+  <div id="myModal" class="modal">      
+      <div class="container  animate">
+        <div class="row modal-content">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+              <div class="card-body">
+                <span class="close">&times;</span>
+                <h5 id="address" class="card-title text-center">Sign In</h5>
+                <div id="form-signin" class="form-signin">                  
+                  <div id="sign-form" class="form-label-group">
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="inputEmail">Email address</label>
+                  </div>
+                  <div id="sign-form" class="form-label-group">
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <label for="inputPassword">Password</label>
+                    <a href="#" id="forgot-password-link"> Forgot password?  </a>
+                  </div>        
+                  <button disabled class="btn btn-lg btn-primary btn-block text-uppercase" id="quickstart-sign-in">Sign in</button>
+                  <br><div style="text-align: center;"><strong> Not registered yet? </strong><a href="#" id="register-link"><strong> Register here  </strong></a></div>
+                </div>
+                <div style="display: none;" id="forgot-password" class="form-signin">
+                  <div id="sign-form" class="form-label-group">
+                    <input type="email" id="email-forgot" class="form-control" required autofocus>
+                    <label for="inputEmail">Email address</label>
+                  </div>
+                  <button class="btn btn-lg btn-primary btn-block text-uppercase" id="reset-password">Reset Password</button>
+                  <br><br>
+                  <a style="margin-left: 40%; font-size: 18px;" href="#" id="signin-link"> Sign In  </a>
+                </div>
+                <div style="display: none;" id="register" class="form-signin">
+                  <div id="sign-form" class="form-label-group">
+                    <input type="email" id="email-register" class="form-control" required autofocus>
+                    <label for="inputEmail">Email address</label>
+                  </div>
+                  <div id="sign-form" class="form-label-group">
+                    <input type="password" id="password-register" class="form-control" required>
+                    <label for="inputPassword">Password</label>
+                  </div>                  
+                  <div id="sign-form" class="form-label-group">
+                    <input type="text" id="userName" class="form-control" required autofocus>
+                    <label for="inputEmail">Display name</label>
+                    <p style="color:red;display: none" class="alert alert-danger" id="writeDisplayName">&#9888; This field (Display Name) is requires.</p>
+                  </div>
+                  <br>
+                  <button class="btn btn-lg btn-primary btn-block text-uppercase" id="quickstart-sign-up">Sign up</button>
+                  <br><div style="text-align: center;"><strong> You're a member? </strong><a href="#" id="register-signin-link"><strong> Login here  </strong></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--  -->
+  </div>
+  
+    <!-- Page Content -->
+    <div class="container">
+  
+      <div class="row">
+  
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+  
+          <!-- Title -->
+          <h1 class="mt-4" id="title"></h1>
+  
+          <!-- Author 
+          <p class="lead">by<a href="#">Start Bootstrap</a></p>  
+          -->
+          <hr>
+  
+          <!-- Date/Time -->
+          <p>Posted on <span id="date"></span></P>
+  
+          <hr>
+  
+          <!-- Preview Image -->
+          <img class="img-fluid rounded" id="image">
+  
+          <hr>
+  
+          <!-- Post Content -->
+          <p class="lead" id="description"></p>  
+          <hr>  
+          <!-- Comments Form -->
+          <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+              <form id="leave-comment">
+                <div class="form-group">
+                  <textarea id="comment" class="form-control" rows="3"></textarea>
+                </div>
+                <p style="color:red;display: none;max-width: 60%;" class="alert alert-danger" id="writeComment">&#9888; write some thing</p>
+                <a style="color: white;" onclick="submitComment()" class="btn btn-primary">Submit</a>
+              </form>
+            </div>
+          </div>
+  
+          <!-- Single Comment -->
+          <div id="comments"></div>
+  
+        </div>
+  
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+  
+          <!-- Search Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-append">
+                  <button class="btn btn-secondary" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Categories Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">Web Design</a>
+                    </li>
+                    <li>
+                      <a href="#">HTML</a>
+                    </li>
+                    <li>
+                      <a href="#">Freebies</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">JavaScript</a>
+                    </li>
+                    <li>
+                      <a href="#">CSS</a>
+                    </li>
+                    <li>
+                      <a href="#">Tutorials</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Side Widget</h5>
+            <div class="card-body">
+              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            </div>
+          </div>
+  
+        </div>
+  
+      </div>
+      <!-- /.row -->
+  
+    </div>
+    <!-- /.container -->
+  
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Amr Eraky </p><br><p class="m-0 text-center text-white">amribrahim11@gmail.com</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+    
+    <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar ">
+      <div class="mdl-snackbar__text"></div>
+      <button type="button" class="mdl-snackbar__action"></button>
+    </div>
+
+    <!--Bootstrap 4 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- getmdl.io snackbar -->
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+     <!--Firebase -->
+     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-firestore.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+     <script src="/script/user.js"></script> 
+
+     <script>
+       var config = {
+         apiKey: "AIzaSyBmuP5pPMI3_68Ufn0Vj0-jjHSYeJ0xoz8",
+         authDomain: "task-7-6a1d5.firebaseapp.com",
+         databaseURL: "https://task-7-6a1d5.firebaseio.com",
+         projectId: "task-7-6a1d5",
+         storageBucket: "task-7-6a1d5.appspot.com",
+         messagingSenderId: "1049895519198",
+         appId: "1:1049895519198:web:dd74a62b5b660a51ba534f",
+         measurementId: "G-P6CQ0BDG29"
+       };
+       firebase.initializeApp(config);
+  
+       // display (retrieve) blogs and its comments from firebase database and storage
+  database = firebase.database();
+  var database = firebase.database();    
+  database.ref('Blogs/').orderByChild('id').equalTo('1').on('value', function(snapshot) {
+      snapshot.forEach(function(data){                      
+          var val = data.val();
+          var blogID = val.id;
+          document.getElementById('title').innerHTML = val.Title;
+          document.getElementById('date').innerHTML = val.date;
+          document.getElementById('image').src = val.ImageUrl;
+          document.getElementById('image').title = val.Title;
+          document.getElementById('image').alt = val.Title;
+          document.getElementById('description').innerHTML = val.Description;
+      });         
+  }); 
+      // ---------------------------------------------------------------------- //
+      // add a comment for each blog only and display it under its blog
+function submitComment() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            if (document.getElementById('comment').value.length == 0) {
+                return false,
+                console.log('Write some thing'),
+                document.getElementById('writeComment').style.display = "block";
+            } 
+            var firebaseOrders = database.ref().child('comments/4/');
+            //Grab order data from the form
+            var comment = {
+                Name: user.displayName,
+                notes: $('#comment').val(), //another way you could write is $('#myForm [name="fullname"]').
+            };
+                            
+            //'push' (aka add) your order to the existing list
+            firebaseOrders.push(comment); //'orders' is the name of the 'collection' (aka database table)
+            $('#leave-comment')[0].reset();
+            document.getElementById('writeComment').style.display = "none";
+        } 
+        else {
+            var messege = document.querySelector('.mdl-js-snackbar');
+            var data = {
+                message: 'You must sign-in first',
+                actionHandler: function() {
+                    var modal = document.getElementById("myModal");
+                    modal.style.display = "block";
+                },
+                actionText: 'Sign-in',
+                timeout: 3000,
+              };
+              messege.MaterialSnackbar.showSnackbar(data);
+              return { error: 'Sign in first ?!' };
+        }
+    });
+};
+// -------------------------------------------------------------------------- //
+// Display Comments
+firebase.database().ref('comments/1/').on('value',function(comments){
+            var content = "";
+            comments.forEach(function(firebaseCommentReference){
+                var comment = firebaseCommentReference.val();                         
+                content += '<div class="media mb-4"><img class="d-flex mr-3" src="/comment_icon.png"><div class="media-body"><h5 class="mt-0">'+comment.Name+'</h5>'+comment.notes+'</div></div>';
+                
+            });
+            $('#comments').html(content);
+        });
+      </script>
+  </body>
+  
+  </html>
+  
