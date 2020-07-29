@@ -1,4 +1,3 @@
-
  * {box-sizing: border-box; }
  html, body {
 	width: 100%;
@@ -88,4 +87,12 @@ body {
 }
 a, a:hover {
   text-decoration: none;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
