@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -128,7 +127,7 @@
         </h1>
 
         <!-- Blog Post -->
-        <div id="ex-list" class="card mb-4">
+        <div id="ex-list">
         </div>
 
         <!-- Pagination -->
@@ -208,12 +207,7 @@
   <!-- /.container -->
   <div class="Suggestions">
     <h2>Add a comment or Suggestion</h2>
-    <form id="Suggestions">  
-      <div class="form-group">
-        <label for="fullNameField"> Your Name: </label>
-        <input type="text" class="form-control" id="Name">
-        <p style="color:red;display: none;max-width: 60%;" class="alert alert-danger" id="writeName">&#9888; Enter your name</p>
-      </div>
+    <form id="Suggestions">
       <div class="form-group">
         <label for="notesField">Your Comment: </label>
         <textarea class="form-control" id="Comment"></textarea>
@@ -222,7 +216,7 @@
     </form>
 
       <!-- it's important NOT to use <button> here because that will do something els (that's why we use <a> and make it look like a button using css -->
-      <a class="btn btn-lg btn-primary" onclick="submitSuggestion()">Add</a>
+      <a style="color: white;" class="btn btn-lg btn-primary" onclick="submitSuggestion()">Add</a>
 
     <div>
       <h4>Previous Comments:</h4>
