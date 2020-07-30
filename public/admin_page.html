@@ -169,25 +169,6 @@
  <script src="script/suggestions.js"></script>
  <script src="script/admins.js"></script>
  <script src="script/displayUsers.js"></script>
-    <script>
-        var orgWarn = console.warn;                
-console.warn = function(message) {                    
-  if(-1 !== message.indexOf("FIREBASE WARNING: Firebase error. Please ensure that you spelled")) {
-    error(message);                        
-  } 
-  return orgWarn.apply(console, arguments);
-};
-try {
-  var firebase = new Firebase('https://task-7-6a1d5.firebaseio.com');                        
-  firebase.once("value", enterUrl); 
-  function enterUrl(snap) {
-    setUpButtons(database);                        
-  };
-}
-catch (e) {
-  console.log(e.message);
-}; 
-    </script>
 
 </body>
 </html>
