@@ -61,61 +61,17 @@ function submitForm(e) {
 }
 // Save User to firebase
 function saveBlog(Title, Description, id, imageFile) {
-  // Upload file to the object 'passportImages/id1' (id1 is current user ID)
-  var uploadTask = firebase.storage().ref().child('blogImages/' + id).put(imageFile);
-
-          // Listen for state changes, errors, and completion of the upload.
-          uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-              function (snapshot) {
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                      case firebase.storage.TaskState.PAUSED: // or 'paused'
-                          console.log('Upload is paused');
-                          break;
-                      case firebase.storage.TaskState.RUNNING: // or 'running'
-                          console.log('Upload is running');
-                          break;
-                  }
-                  firebase.storage().ref().child('blogImages/' + id).getDownloadURL().then(function(url) {                 
-                    // Inserted into an <img> element:
-                    saveData(Description,Title, id, url);
-                  })
-              }, function (error) {
-                  databaseRef.child(id).remove(); //remove user info from database if his image could not be uploaded to storage too.
-                  console.log(error);
-                  window.alert(`Something went wrong, please try again. ${error.message}`);
-  
-                  // A full list of error codes is available at
-                  // https://firebase.google.com/docs/storage/web/handle-errors
-                  switch (error.code) {
-                      case 'storage/unauthorized':
-                          // User doesn't have permission to access the object
-                          console.log("Image: User doesn't have permission to access the object");
-                          break;
-  
-                      case 'storage/canceled':
-                          // User canceled the upload
-                          console.log("Image: User canceled the upload");
-                          break;
-  
-                      case 'storage/unknown':
-                          // Unknown error occurred, inspect error.serverResponse
-                          console.log("Image: Unknown error occurred, inspect error.serverResponse");
-                          break;
-                  }
-                  
-              }, function () {
-                  // Upload completed successfully!
-                  isSavedImage = true;
-                  console.log("Image uploaded successfully!");
-                  
-              });
-          //if all data commited successfully to Firebase pop a massage and reset form.
-          
-     
-    // reference to image path in storage 'passportImages/id1' (id1 is current user ID)
+  // Upload file to the object 'blogImages/id' (id1 is current user ID)
+  firebase.storage().ref().child('blogImages/' + id).put(imageFile).snapshot.ref.getDownloadURL().then(function(url) {
+    console.log('File available at', url);
+    saveData(Description,Title, id, url);
+  }, function(error) {
+    if (error) {
+      console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
+      return false;
+    }
+  });
+ 
     function saveData(Description,Title, id, url) {
     //save User to database
     var newUserRef = databaseRef;
@@ -136,28 +92,41 @@ function saveBlog(Title, Description, id, imageFile) {
             console.log("Blog added successfully!");
         }
     });
-    finalCall(id, Title);
+    savePage(id, Title);
   }
-  function finalCall(id, Title) {
-    postData('/add', { id: id, title: Title })
+  function savePage(id, Title) {
     // Function to POST data
+    postData('/add', { id: id, title: Title });
+    finalCall();
   }
-}
-const postData = async (url = '', data = {}) => {
-  console.log(data);
-  const response = await fetch(url, {
+
+  const postData = async (url = '', data = {}) => {
+    console.log(data);
+    const response = await fetch(url, {
       method: "POST",
       credentials: "same-origin",
       headers: {
           "Content-Type": "application/json"
       },
       body: JSON.stringify(data),
-  });
-  try {
+    });
+    try {
       const newData = await response.json();
       return newData;
-  }
-  catch (error) {
+    }
+    catch (error) {
       console.log("Error in PostData", error);
+    }
+  }
+  function finalCall() {
+    // Show alert
+    var notification = document.querySelector('.mdl-js-snackbar');
+            var data = {
+                message: 'Blog has been added successfully!',
+                timeout: 3000,
+              };
+              notification.MaterialSnackbar.showSnackbar(data);
+    // Clear form
+    document.forms.AddForm.reset();
   }
 }
