@@ -178,7 +178,7 @@ console.warn = function(message) {
   return orgWarn.apply(console, arguments);
 };
 try {
-  var firebase = new Firebase(url);                        
+  var firebase = new Firebase('https://task-7-6a1d5.firebaseio.com');                        
   firebase.once("value", enterUrl); 
   function enterUrl(snap) {
     setUpButtons(database);                        
