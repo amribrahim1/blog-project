@@ -148,18 +148,18 @@
  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  <script>
-     var config = {
-         apiKey: "AIzaSyBmuP5pPMI3_68Ufn0Vj0-jjHSYeJ0xoz8",
-         authDomain: "task-7-6a1d5.firebaseapp.com",
-         databaseURL: "https://task-7-6a1d5.firebaseio.com",
-         projectId: "task-7-6a1d5",
-         storageBucket: "task-7-6a1d5.appspot.com",
-         messagingSenderId: "1049895519198",
-         appId: "1:1049895519198:web:dd74a62b5b660a51ba534f",
-         measurementId: "G-P6CQ0BDG29"
-     };
-     // Initialize Firebase
-     firebase.initializeApp(config);
+    var firebaseConfig = {
+        apiKey: "AIzaSyBmuP5pPMI3_68Ufn0Vj0-jjHSYeJ0xoz8",
+        authDomain: "task-7-6a1d5.firebaseapp.com",
+        databaseURL: "https://task-7-6a1d5.firebaseio.com",
+        projectId: "task-7-6a1d5",
+        storageBucket: "task-7-6a1d5.appspot.com",
+        messagingSenderId: "1049895519198",
+        appId: "1:1049895519198:web:dd74a62b5b660a51ba534f",
+        measurementId: "G-P6CQ0BDG29"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
      const auth = firebase.auth();
      const functions = firebase.functions();
 </script>
