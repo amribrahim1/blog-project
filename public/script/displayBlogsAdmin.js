@@ -63,7 +63,7 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot){
     if (result) {
         firebase.storage().ref().child(`blogImages/${blogID}`).delete();
         firebase.database().ref().child(`Blogs/${childKey}/`).remove();
-        firebase.database().ref().child(`comments/${childKey}/`).remove();
+        firebase.database().ref().child(`comments/${blogID}/`).remove();
     }
 } */
 function delete_blog(childKey,blogID,blogTitle){
