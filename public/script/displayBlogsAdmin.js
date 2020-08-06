@@ -13,8 +13,9 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot){
                                     <input type="text" id="newTitle${blogID}" value="${val.Title}">
                                 </div>
                                 <div><p>${val.Description}</p><a id="editTitle${blogID}" class="btn btn-warning" onClick="editDescription(${blogID})">edit description</a></div><br>
-                                <div id="dialog${blogID}editDescription" style="display:none" title="Edit blog description">
-                                    <textarea type="text" id="newDescription${blogID}">${val.Description}</textarea>
+                                <div id="dialog${blogID}editDescription" style="display:none; width:50%" title="Edit blog description">
+                                    <textarea id="newDescription${blogID}" name="new-description">${val.Description}</textarea>
+                                    <input name="image" type="file" id="upload" style="display: none;" onchange="">
                                 </div>
                                 <dev>ID:&nbsp;&nbsp;&nbsp;${val.id}</dev><br>
                                 Posted on `+ val.date + `
@@ -63,7 +64,7 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot){
     if (result) {
         firebase.storage().ref().child(`blogImages/${blogID}`).delete();
         firebase.database().ref().child(`Blogs/${childKey}/`).remove();
-        firebase.database().ref().child(`comments/${blogID}/`).remove();
+        firebase.database().ref().child(`comments/${childKey}/`).remove();
     }
 } */
 function delete_blog(childKey,blogID,blogTitle){
@@ -74,9 +75,9 @@ function delete_blog(childKey,blogID,blogTitle){
         modal: true,
         buttons: {
             "Delete": function() {
-                firebase.storage().ref().child(`blogImages/${blogID}`).delete();
-                firebase.database().ref().child(`Blogs/${childKey}/`).remove();
-                firebase.database().ref().child(`comments/${childKey}/`).remove();
+                firebase.storage().ref().child(`blogImages/${blogID}`).delete(),
+                firebase.database().ref().child(`Blogs/${childKey}/`).remove(),
+                firebase.database().ref().child(`comments/${blogID}/`).remove(),
                 deleteData('/delete', { id: blogID, title: blogTitle})
                 $( this ).dialog( "close" );
             },
@@ -150,7 +151,7 @@ function editTitle(blogID) {
             $( this ).dialog( "close" );
           }
         }
-      });
+    });
 }
 
 // Edit blog description
@@ -158,13 +159,11 @@ function editDescription(blogID) {
     $(`#dialog${blogID}editDescription`).dialog({
         resizable: false,
         height: "auto",
-        width: 400,
-        modal: true,
+        width: '70%',
         buttons: {
             "Save changs": function() {
                 firebase.database().ref('Blogs').orderByChild("id").equalTo(`${blogID}`).on("child_added", function(snapshot) {
-                    const newDescription = document.querySelector(`#newDescription${blogID}`);
-                    snapshot.ref.update({ Description: newDescription.value })
+                    snapshot.ref.update({ Description: tinymce.get(`newDescription${blogID}`).getContent() })
                 })
                 $( this ).dialog( "close" );
             },
@@ -173,6 +172,41 @@ function editDescription(blogID) {
             },
         }
     });
+    
+    tinymce.init({
+        selector: `#newDescription${blogID}`,
+        height : 400,
+        max_height: 400,
+        paste_data_images: true,
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table directionality",
+            "emoticons template paste formatpainter "
+        ],
+        toolbar1: "undo redo | fontselect fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | forecolor backcolor formatpainter | bullist numlist outdent indent | link image media | emoticons | preview",
+        image_advtab: true,
+        image_title: true,
+        file_picker_callback: function(callback, value, meta) {
+            if (meta.filetype == 'image') {
+                $('#upload').trigger('click');
+                $('#upload').on('change', function() {
+                    var file = this.files[0];
+                    firebase.storage().ref().child(`blogs/${file.name}`).put(file).snapshot.ref.getDownloadURL().then(function(url) {
+                        console.log('File available at', url);
+                            callback(url, {alt: file.name}, {title: file.name});
+                    }, function(error) {
+                        if (error) {
+                            console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
+                            return false;
+                        }
+                    });
+                });
+            }
+        },
+        image_caption: true,
+    });
+      
 }
 /*
 function editTitle(blogID) {
