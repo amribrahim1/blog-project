@@ -9,7 +9,7 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot) {
                         <img class="card-img-top" src="${val.ImageUrl}" title="${val.Title}" alt="${val.Title}">
                         <div class="card-body">
                             <h2 class="card-title">${val.Title}</h2>
-                            <p class="card-text">${val.Description}</p>
+                            <div class="card-text">${val.Description}</div>
                             <a class="btn btn-primary" href="blogs/${val.Title}-${val.id}.html">Read More &rarr;</a>
                         </div>
                         <div class="card-footer text-muted">Posted on ${val.date}</div>
