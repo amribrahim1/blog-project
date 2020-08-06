@@ -94,5 +94,9 @@ a, a:hover {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3; /* number of lines to show */
+  max-height: 100px;
   -webkit-box-orient: vertical;
+}
+.card-text img {
+  display: none;
 }
