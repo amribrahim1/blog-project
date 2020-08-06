@@ -37,7 +37,7 @@ function submitForm(e) {
     $('textarea[name=Description]').val(function(index, value) {
       return value.replace('\n', '<br>');
    });
-    var Description = document.getElementById('Description').value;
+   var addBlogContent = tinymce.get("add-blog-textarea").getContent();
     if (document.getElementById('selectID').value === "") {
       id = document.getElementById('id').value;
     } else {
@@ -56,27 +56,33 @@ function submitForm(e) {
     var isSavedImage = false; //  if user image successfully commited to Firebase Storage.
 
     // Save User
-    saveBlog(Title, Description, id, imageFile);
+    saveBlog(Title, addBlogContent, id, imageFile);
     document.getElementById("addBlog").reset();
 }
 // Save User to firebase
-function saveBlog(Title, Description, id, imageFile) {
+function saveBlog(Title, addBlogContent, id, imageFile) {
   // Upload file to the object 'blogImages/id' (id1 is current user ID)
   firebase.storage().ref().child('blogImages/' + id).put(imageFile).snapshot.ref.getDownloadURL().then(function(url) {
     console.log('File available at', url);
-    saveData(Description,Title, id, url);
+    saveData(addBlogContent,Title, id, url);
   }, function(error) {
     if (error) {
       console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
+      var notification = document.querySelector('.mdl-js-snackbar');
+            var data = {
+                message: `Image could not be uploaded:${error.code}.Try reload the page and try again`,
+                timeout: 5000,
+              };
+              notification.MaterialSnackbar.showSnackbar(data);
       return false;
     }
   });
  
-    function saveData(Description,Title, id, url) {
+    function saveData(addBlogContent,Title, id, url) {
     //save User to database
     var newUserRef = databaseRef;
     newUserRef.push({
-        Description: Description,
+        Description: addBlogContent,
         Title: Title,
         id: id,
         ImageUrl: url,
@@ -86,13 +92,21 @@ function saveBlog(Title, Description, id, imageFile) {
         if (error) {
             // The write failed
             console.log("Blog could not be added: " + error);
+            var notification = document.querySelector('.mdl-js-snackbar');
+            var data = {
+                message: `Blog could not be added: ${error}`,
+                timeout: 5000,
+              };
+              notification.MaterialSnackbar.showSnackbar(data);
+            return false;
         } else {
             // Data saved successfully!
             isSavedDatabase = true;
             console.log("Blog added successfully!");
+            savePage(id, Title);
         }
     });
-    savePage(id, Title);
+    
   }
   function savePage(id, Title) {
     // Function to POST data
@@ -116,6 +130,12 @@ function saveBlog(Title, Description, id, imageFile) {
     }
     catch (error) {
       console.log("Error in PostData", error);
+      var notification = document.querySelector('.mdl-js-snackbar');
+            var data = {
+                message: `Error in PostData: ${error}`,
+                timeout: 5000,
+              };
+              notification.MaterialSnackbar.showSnackbar(data);
     }
   }
   function finalCall() {
@@ -130,3 +150,40 @@ function saveBlog(Title, Description, id, imageFile) {
     document.forms.AddForm.reset();
   }
 }
+
+// TinyMCE Editor textarea
+$(document).ready(function () {
+  tinymce.init({
+    selector: "#add-blog-textarea",
+    height : 400,
+    max_height: 400,
+    paste_data_images: true,
+    plugins: [
+      "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+      "searchreplace wordcount visualblocks visualchars code fullscreen",
+      "insertdatetime media nonbreaking save table directionality",
+      "emoticons template paste formatpainter "
+    ],
+    toolbar1: "undo redo | fontselect fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | forecolor backcolor formatpainter | bullist numlist outdent indent | link image media | emoticons | preview",
+    image_advtab: true,
+    image_title: true,
+    file_picker_callback: function(callback, value, meta) {
+      if (meta.filetype == 'image') {
+        $('#upload').trigger('click');
+        $('#upload').on('change', function() {
+          var file = this.files[0];
+          firebase.storage().ref().child(`blogs/${file.name}`).put(file).snapshot.ref.getDownloadURL().then(function(url) {
+    console.log('File available at', url);
+    callback(url, {alt: file.name}, {title: file.name});
+  }, function(error) {
+    if (error) {
+      console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
+      return false;
+    }
+  });
+        });
+      }
+    },
+  image_caption: true,
+  });
+});
