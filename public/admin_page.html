@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>BLOGS admin</title>
     <link rel="stylesheet" href="css/admin-login.css" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/black-tie/jquery-ui.css">
     <link rel="icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -45,10 +45,12 @@
 </nav>
   <br>
   <div class="tab-content">
+    <!-- Display blogs tab -->
     <div id="blogs" class="tab-pane fade in active">
       <h3>Blogs</h3>
       <div class="container"><div class="row" id="ex-list"></div></div>
-    </div>
+    </div> <!-- End of Display blogs tab -->
+    <!-- Add a blog form tab -->
     <div id="add-blog" class="tab-pane fade">
       <h3>add a blog</h3>
       <form name="AddForm" id="addBlog">
@@ -58,7 +60,8 @@
         </div>
         <div class="form-group">
           <label>Description</label>
-          <textarea class="form-control" name="Description" id="Description" required placeholder="Description" rows="10"></textarea>
+          <textarea id="add-blog-textarea" name="add-blog"></textarea>
+          <input name="image" type="file" id="upload" style="display: none;" onchange="">
         </div>
         <div class="form-group">
           <label>add a photo</label>
@@ -76,7 +79,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Add</button>
       </form>
-    </div>
+    </div> <!--  End of Add a blog form tab -->
+    <!-- Display Suggestions or Comments and delete them  -->
     <div id="Suggestions" class="tab-pane fade">
       <h3>Comments or Suggestions</h3>
       <table class="table table-bordered">
@@ -89,7 +93,8 @@
         </thead>
         <tbody id="co-table"></tbody>
       </table>
-    </div>
+    </div> <!-- End of Display Suggestions or Comments and delete them  -->
+    <!-- Display admins and remove an admin  -->
     <div id="admins" class="tab-pane fade">
       <h3>admins</h3>
       <table class="table table-bordered">
@@ -109,7 +114,8 @@
           </div>
         <button type="submit" class="btn btn-primary">Make admin</button>
       </form>
-    </div>
+    </div> <!-- End of Display admins and remove an admin  -->
+    <!-- Display all users and update profiles -->
     <div id="users" class="tab-pane fade">
       <h3>Blog Users</h3>
       <table class="table table-bordered">
@@ -127,9 +133,9 @@
         </thead>
         <tbody id="usersTable"></tbody>
       </table>
-    </div>
-  </div>
-</div>
+    </div> <!-- End of Display all users and update profiles -->
+  </div> <!-- /tab-content -->
+</div> <!-- /container -->
 
 <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar ">
   <div class="mdl-snackbar__text"></div>
@@ -141,25 +147,27 @@
  <!-- The core Firebase JS SDK is always required and must be listed first -->
  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
- <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-database.js"></script>
  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-storage.js"></script>
  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-functions.js"></script>
 
  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <!-- TinyMCE Editor -->
+ <script src="https://cdn.tiny.cloud/1/onq1mfykla6p7ynfc2izz0vjbeoav1qc2ioqq83uv3z2quga/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
  <script>
-    var firebaseConfig = {
-        apiKey: "AIzaSyBmuP5pPMI3_68Ufn0Vj0-jjHSYeJ0xoz8",
-        authDomain: "task-7-6a1d5.firebaseapp.com",
-        databaseURL: "https://task-7-6a1d5.firebaseio.com",
-        projectId: "task-7-6a1d5",
-        storageBucket: "task-7-6a1d5.appspot.com",
-        messagingSenderId: "1049895519198",
-        appId: "1:1049895519198:web:dd74a62b5b660a51ba534f",
-        measurementId: "G-P6CQ0BDG29"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+     var config = {
+         apiKey: "AIzaSyBmuP5pPMI3_68Ufn0Vj0-jjHSYeJ0xoz8",
+         authDomain: "task-7-6a1d5.firebaseapp.com",
+         databaseURL: "https://task-7-6a1d5.firebaseio.com",
+         projectId: "task-7-6a1d5",
+         storageBucket: "task-7-6a1d5.appspot.com",
+         messagingSenderId: "1049895519198",
+         appId: "1:1049895519198:web:dd74a62b5b660a51ba534f",
+         measurementId: "G-P6CQ0BDG29"
+     };
+     // Initialize Firebase
+     firebase.initializeApp(config);
      const auth = firebase.auth();
      const functions = firebase.functions();
 </script>
