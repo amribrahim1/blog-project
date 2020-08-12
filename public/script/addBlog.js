@@ -155,6 +155,7 @@ function saveBlog(Title, addBlogContent, id, imageFile) {
 $(document).ready(function () {
   tinymce.init({
     selector: "#add-blog-textarea",
+    skin: 'snow',
     height : 400,
     max_height: 400,
     paste_data_images: true,
