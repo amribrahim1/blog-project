@@ -81,3 +81,8 @@ h3 {
   width: 100%;
   height: 300px;
 }
+
+.tox-tinymce {
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+}
