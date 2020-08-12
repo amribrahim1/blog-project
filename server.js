@@ -18,7 +18,7 @@ const cors = require('cors');
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.post('/add', function (req, res) {
   projectData = req.body;
