@@ -8,7 +8,7 @@ Security built by firebase functions.
 
 You can add/delete blogs/comments from admin page: https://amr-eraky-blog-project.herokuapp.com/admin_page.html, if you are admin of course.
 
-The admins create any content with TinyMCE Rich Text Editor built admin page then on click add blog a new html page will be created and a link to this page will be creatd on home page.
+The admins create any content with TinyMCE Rich Text Editor built admin page then on click add blog a new html page will be created (by Node.js) and a link to this page will be creatd on home page.
 
 Admin can edit the content of any blog or delete it.
 
