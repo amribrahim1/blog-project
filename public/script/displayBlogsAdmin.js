@@ -175,6 +175,7 @@ function editDescription(blogID) {
     
     tinymce.init({
         selector: `#newDescription${blogID}`,
+        skin: 'snow',
         height : 400,
         max_height: 400,
         paste_data_images: true,
