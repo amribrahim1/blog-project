@@ -193,14 +193,26 @@ function editDescription(blogID) {
                 $('#upload').trigger('click');
                 $('#upload').on('change', function() {
                     var file = this.files[0];
-                    firebase.storage().ref().child(`blogs/${file.name}`).put(file).snapshot.ref.getDownloadURL().then(function(url) {
-                        console.log('File available at', url);
-                            callback(url, {alt: file.name}, {title: file.name});
+                    var uploadTask = firebase.storage().ref().child(`blogs/${file.name}`).put(file);
+                    uploadTask.on('state_changed', function(snapshot){
                     }, function(error) {
-                        if (error) {
-                            console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
-                            return false;
-                        }
+                      if (error) {
+                        console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
+                        var notification = document.querySelector('.mdl-js-snackbar');
+                              var data = {
+                                  message: `Image could not be uploaded:${error.code}.Try reload the page and try again`,
+                                  timeout: 5000,
+                                };
+                                notification.MaterialSnackbar.showSnackbar(data);
+                        return false;
+                      }
+                    }, function() {
+                      // Handle successful uploads on complete
+                      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                      uploadTask.snapshot.ref.getDownloadURL().then(function(url) {
+                        console.log('File available at', url);
+                        callback(url, {alt: file.name}, {title: file.name});
+                      });
                     });
                 });
             }
