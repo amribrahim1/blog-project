@@ -374,7 +374,7 @@ firebase.database().ref('comments/${projectData.id}/').on('value',function(comme
 app.post('/delete', function (req, res) {
   projectData = req.body;
   fs.unlink(`public/blogs/${projectData.title}-${projectData.id}.html`, function (err) {
-    if (err) throw err;
+    if (err) { console.log(err); return false;}
     console.log('File deleted!');
   });
 })
