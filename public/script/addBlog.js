@@ -50,11 +50,6 @@ function submitForm(e) {
     var Title = document.getElementById('title').value;
     var imageFile = document.getElementById('img').files[0];
 
-    //this VAR's are used in 'saveBlog()'; function. ---NOT IN USE---
-    // unused value=5;  if false value=0; if true value=1
-    var isSavedDatabase = false; //  if user data successfully commited to Firebase Database.
-    var isSavedImage = false; //  if user image successfully commited to Firebase Storage.
-
     // Save User
     saveBlog(Title, addBlogContent, id, imageFile);
     document.getElementById("addBlog").reset();
@@ -62,21 +57,29 @@ function submitForm(e) {
 // Save User to firebase
 function saveBlog(Title, addBlogContent, id, imageFile) {
   // Upload file to the object 'blogImages/id' (id1 is current user ID)
-  firebase.storage().ref().child('blogImages/' + id).put(imageFile).snapshot.ref.getDownloadURL().then(function(url) {
-    console.log('File available at', url);
-    saveData(addBlogContent,Title, id, url);
-  }, function(error) {
-    if (error) {
-      console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
-      var notification = document.querySelector('.mdl-js-snackbar');
-            var data = {
-                message: `Image could not be uploaded:${error.code}.Try reload the page and try again`,
-                timeout: 5000,
-              };
-              notification.MaterialSnackbar.showSnackbar(data);
-      return false;
-    }
-  });
+  var uploadTask = firebase.storage().ref().child('blogImages/' + id).put(imageFile);
+
+    uploadTask.on('state_changed', function(snapshot){
+    }, function(error) {
+      if (error) {
+        console.log("Image could not be uploaded: " + error.code+ ".Try reload the page and try again");
+        var notification = document.querySelector('.mdl-js-snackbar');
+              var data = {
+                  message: `Image could not be uploaded:${error.code}.Try reload the page and try again`,
+                  timeout: 5000,
+                };
+                notification.MaterialSnackbar.showSnackbar(data);
+        return false;
+      }
+    }, function() {
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+      uploadTask.snapshot.ref.getDownloadURL().then(function(url) {
+        console.log('File available at', url);
+        saveData(addBlogContent,Title, id, url);
+      });
+    });
+    
  
     function saveData(addBlogContent,Title, id, url) {
     //save User to database
@@ -157,7 +160,6 @@ $(document).ready(function () {
     selector: "#add-blog-textarea",
     skin: 'snow',
     height : 400,
-    max_height: 400,
     paste_data_images: true,
     plugins: [
       "advlist autolink lists link image charmap print preview hr anchor pagebreak",
