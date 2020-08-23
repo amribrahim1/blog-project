@@ -4,10 +4,10 @@ window.onload = function() {
       if (user) {
         user.getIdTokenResult().then(idTokenResult => {             
           console.log(idTokenResult.claims.admin);
-          if (idTokenResult.claims.admin === true) {
+          if (idTokenResult.claims.admin === true || idTokenResult.claims.owner === true) {
             var notification = document.querySelector('.mdl-js-snackbar');
       var data = {
-        message: 'Hello admin',
+        message: `Hello ${user.displayName}`,
         timeout: 5000,
       };
       notification.MaterialSnackbar.showSnackbar(data);
