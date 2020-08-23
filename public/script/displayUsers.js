@@ -54,7 +54,7 @@ listAllUsers({})
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       user.getIdTokenResult().then(idTokenResult => {
-        if (idTokenResult.claims.admin === true) {                   
+        if (idTokenResult.claims.admin === true || idTokenResult.claims.owner === true) {                   
           $('#usersTable').html(table1 + '<tr><td colspan="8" bgcolor="#009966"></tr>' + table2 + table3);
         } 
       })
