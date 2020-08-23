@@ -3,19 +3,23 @@ const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
 listAllUsers({})
 .then(function(result) {
     const users = result.data;
-    var allAdmins = "";
+    var owners,admins = "";
     for (const user of users) {
       
       if (user.customClaims) {
-        if (user.customClaims.admin == true) {
+        if (user.customClaims.owner == true) {
           var emailAdmin = user.email;
           var uidAdmin = user.uid;
-          var admin = `<tr>
+          owners += `<tr>
                         <td>${user.email}</td>
-                        <td>${user.customClaims.admin}</td>
+                        <td>owner</td>
+                        </tr>`;
+          } else if (user.customClaims.admin == true) {
+            admins += `<tr>
+                        <td>${user.email}</td>
+                        <td>admin</td>
                         <td><a class="btn btn-warning" onclick="removeAdmin('${emailAdmin}','${uidAdmin}')">Remove admin</a></td>
                       </tr>`;
-          allAdmins = allAdmins + admin
           }
       }
  }
@@ -24,9 +28,9 @@ listAllUsers({})
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
               user.getIdTokenResult().then(idTokenResult => {
-                if (idTokenResult.claims.admin === true) {
+                if (idTokenResult.claims.owner === true) {
                     
-                    $('#admins-table').html(allAdmins);
+                    $('#admins-table').html(owners+ '<tr><td colspan="3" bgcolor="#009966"></tr>' + admins);
                 } 
               })
             } 
@@ -35,12 +39,6 @@ listAllUsers({})
 // ------------------------------------------------------
 // Remove an admin from the admins list
   function removeAdmin (emailAdmin,uidAdmin) {
-    var ownerEmail = 'amribrahim11@gmail.com'
-      var user = firebase.auth().currentUser;
-        if (user.email !== ownerEmail) {
-          return { error: 'Who are you ?!' },
-          alert("Only Amr can remove admins");
-        }
     var result = confirm(`Are you sure you want to delete ${emailAdmin} from admins ?`);
     if (result) { 
       const removeAdminRole = functions.httpsCallable('removeAdminRole');
@@ -57,14 +55,7 @@ listAllUsers({})
 // make admin
 const adminForm = document.querySelector('.addAdmin');
 adminForm.addEventListener('submit', (e) => {
-    e.preventDefault();   
-    var ownerEmail = 'amribrahim11@gmail.com'
-    var user = firebase.auth().currentUser;
-
-      if (user.email !== ownerEmail) {
-        return { error: 'Who are you ?!' },
-        alert("Only Amr can add admins");
-      } 
+    e.preventDefault();
 
     const adminEmail = document.querySelector('#adminEmail').value;
     const addAdminRole = functions.httpsCallable('addAdminRole');
