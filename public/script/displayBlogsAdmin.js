@@ -50,7 +50,7 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           user.getIdTokenResult().then(idTokenResult => { 
-            if (idTokenResult.claims.admin === true) {
+            if (idTokenResult.claims.admin === true || idTokenResult.claims.owner === true) {
                 $('#ex-list').html(allBlogsHtml);
             } 
           })
