@@ -66,43 +66,7 @@ function updateDiv() {
   document.getElementById("usersTable").innerHTML = users() ;
 }
 
-
-        /*
-        const addUser = document.createElement('tr'); 
-        addUser.setAttribute('id', user.uid)
-        const addEmail = document.createElement('td');
-        addEmail.innerHTML = user.email;
-        const addUid = document.createElement('td');
-        addUid.innerHTML = user.uid;
-        const displayName = document.createElement('td');
-        displayName.innerHTML = user.displayName;
-        const phoneNumber = document.createElement('td');
-        phoneNumber.innerHTML = user.phoneNumber;
-        const emailVerified = document.createElement('td');
-        emailVerified.innerHTML = user.emailVerified;
-        const lastSignInTime = document.createElement('td');
-        lastSignInTime.innerHTML = user.metadata.lastSignInTime;
-        const creationTime = document.createElement('td');
-        creationTime.innerHTML = user.metadata.creationTime;
-        
-        const usersTable = document.getElementById('users-table');  
-        usersTable.appendChild(addUser);
-
-        addUser.innerHTML+= addEmail.outerHTML + addUid.outerHTML + displayName.outerHTML + phoneNumber.outerHTML + emailVerified.outerHTML + lastSignInTime.outerHTML + creationTime.outerHTML;
-        */
 const updateUser = functions.httpsCallable('updateUser');
-/* function updateUsers(UID) {
-  updateUser({ uid: UID, 
-    displayName: 'New Test',
-  })
-  .then(function(result) {
-		// See the UserRecord reference doc for the contents of userRecord.
-		console.log(result);
-	})
-  .catch(function(error) {
-  console.log('Error updating user:', error);
-  });
-} */
  
 function updateUsers(UID) {
 $(`#dialog${UID}updateUser`).dialog({
