@@ -59,14 +59,6 @@ database.ref('Blogs/').orderByChild('dateFull').on('value', function(snapshot){
 });
 
 // delete a blog and its comments
-/* function delete_blog(childKey,blogID){
-    var result = confirm("Are you sure you want to delete?");
-    if (result) {
-        firebase.storage().ref().child(`blogImages/${blogID}`).delete();
-        firebase.database().ref().child(`Blogs/${childKey}/`).remove();
-        firebase.database().ref().child(`comments/${childKey}/`).remove();
-    }
-} */
 function delete_blog(childKey,blogID,blogTitle){
     $(`#dialog${blogID}deleteBlog`).dialog({
         resizable: false,
@@ -107,13 +99,6 @@ const deleteData = async (url = '', data = {}) => {
 }
 
 // delete a comment
-/*
-function delete_comment(Key,blogID){
-    var result = confirm("Are you sure you want to delete?");
-    if (result) {
-        firebase.database().ref().child(`comments/${blogID}/${Key}/`).remove();
-    }
-}   */
 function delete_comment(Key,blogID){
     $(`#dialog${blogID}deleteComment`).dialog({
         resizable: false,
@@ -221,16 +206,3 @@ function editDescription(blogID) {
     });
       
 }
-/*
-function editTitle(blogID) {
-    const title = document.querySelector(`#title${blogID}`);
-    const editTitleButton = document.querySelector(`#editTitle${blogID}`);
-    firebase.database().ref('Blogs').orderByChild("id").equalTo(`${blogID}`).on("child_added", function(snapshot) {
-        var titleValue = snapshot.val().Title;
-        title.innerHTML = `<input type="text" id="newTitle${blogID}" value="${titleValue}">`;
-        editTitleButton.innerHTML = `<a class="btn-item" onClick="OKEditTitle(${blogID})">OK</a>`+`&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`+`<a class="btn-item" onClick="CancelEditTitle(${blogID})">Cancel</a>`
-        console.log(title);
-        // &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<a class="btn-item" onClick="CancelEditTitle(${blogID})">Cancel</a>
-    });
-}
-*/
