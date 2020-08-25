@@ -30,11 +30,6 @@ function toggleSignIn() {
     document.getElementById('quickstart-sign-in').disabled = true;
   }
 
-  /**
-   * Handles the sign up button press.
-   */
-  
-
   // Sends an email verification to the user.
   function sendEmailVerification() {
     // [START sendemailverification]
@@ -64,16 +59,10 @@ function toggleSignIn() {
         user.providerData.forEach(function (profile) {
           console.log(profile);
         });
-        // document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-        // document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-        // document.getElementById('myBtn').innerHTML = "Sign out&nbsp;&nbsp;<i class='fas fa-sign-out-alt'></i>";
         document.getElementById("myModal").style.display = 'none';
-        // document.getElementById("sign-form").style.display = 'none';
-        // document.getElementById("quickstart-sign-up").style.display = 'none';
         document.getElementById("myBtn").style.display = 'none';
         document.getElementById("signoutBtn").style.display = 'block';
         document.getElementById("profile").style.display = 'block';
-        // document.getElementById('address').textContent = user.email;
         if (user.displayName == null) {
           document.getElementById("displayName").innerHTML = "My Account"
         } else { document.getElementById("displayName").innerHTML = user.displayName }
@@ -82,12 +71,6 @@ function toggleSignIn() {
        else {
         // User is signed out.
         // [START_EXCLUDE]
-        // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-        // document.getElementById('quickstart-sign-in').textContent = 'Sign in';
-        // document.getElementById('myBtn').innerHTML = "Sign in&nbsp;&nbsp;<i class='fas fa-sign-in-alt'></i>";
-        // document.getElementById("sign-form").style.display = 'block';
-        // document.getElementById("quickstart-sign-up").style.display = 'block';
-        // document.getElementById('address').textContent = 'Sign in';
         document.getElementById("signoutBtn").style.display = 'none';
         
         // [END_EXCLUDE]
