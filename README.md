@@ -1,4 +1,4 @@
-https://amr-eraky-blog-project.herokuapp.com/
+https://blog-project-futh.onrender.com
 
 This is a blog project using (Front-End): html, css, JavaScript, jquery and bootstrap 4.
 
@@ -6,7 +6,7 @@ The content (Back-End) using: Node.js and Google Firebase.
 
 Security built by firebase functions.
 
-You can add/delete blogs/comments from admin page: https://amr-eraky-blog-project.herokuapp.com/admin_page.html, if you are admin of course.
+You can add/delete blogs/comments from admin page: https://blog-project-futh.onrender.com/admin_page.html, if you are admin of course.
 
 The admins create any content with TinyMCE Rich Text Editor built admin page then on click add blog a new html page will be created (by Node.js) and a link to this page will be creatd on home page.
 
