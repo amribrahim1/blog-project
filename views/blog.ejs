@@ -1,13 +1,13 @@
 <!DOCTYPE html>
   <html lang="en">
   
-  <head>
+  <head> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Amr Eraky">
     <link rel="icon" href="/favicon.png">
-    <title>COVID-19 - AMR ERAKY Blog Home</title>
+    <title><%= blogId %> - Amr Eraky Blogs</title>
   
     <!--Bootstrap 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -17,7 +17,7 @@
     <link href="/css/login.css" rel="stylesheet">
   
     <!-- getmdl.io snackbar -->
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.blue-indigo.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   </head>
@@ -249,7 +249,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- getmdl.io snackbar -->
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
      <!--Firebase -->
      <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
      <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-firestore.js"></script>
@@ -270,22 +270,21 @@
          measurementId: "G-P6CQ0BDG29"
        };
        firebase.initializeApp(config);
+       const database = firebase.database();
   
-       // display (retrieve) blogs and its comments from firebase database and storage
-  database = firebase.database();
-  var database = firebase.database();    
-  database.ref('Blogs/').orderByChild('id').equalTo('1').on('value', function(snapshot) {
-      snapshot.forEach(function(data){                      
-          var val = data.val();
-          var blogID = val.id;
-          document.getElementById('title').innerHTML = val.Title;
-          document.getElementById('date').innerHTML = val.date;
-          document.getElementById('image').src = val.ImageUrl;
-          document.getElementById('image').title = val.Title;
-          document.getElementById('image').alt = val.Title;
-          document.getElementById('description').innerHTML = val.Description;
-      });         
-  }); 
+      //  display (retrieve) blogs and its comments from firebase database and storage
+        database.ref('Blogs/').orderByChild('id').equalTo('<%= blogId %>').on('value', function(snapshot) {
+            snapshot.forEach(function(data){                      
+                const { Title, date, ImageUrl, Description } = data.val();
+                document.title = Title;
+                document.getElementById('title').innerHTML = Title;
+                document.getElementById('date').innerHTML = date;
+                document.getElementById('image').src = ImageUrl;
+                document.getElementById('image').title = Title;
+                document.getElementById('image').alt = Title;
+                document.getElementById('description').innerHTML = Description;
+            });         
+        }); 
       // ---------------------------------------------------------------------- //
       // add a comment for each blog only and display it under its blog
 function submitComment() {
@@ -296,7 +295,7 @@ function submitComment() {
                 console.log('Write some thing'),
                 document.getElementById('writeComment').style.display = "block";
             } 
-            var firebaseOrders = database.ref().child('comments/4/');
+            var firebaseOrders = database.ref().child('comments/<%= blogId %>/');
             //Grab order data from the form
             var comment = {
                 Name: user.displayName,
@@ -326,7 +325,7 @@ function submitComment() {
 };
 // -------------------------------------------------------------------------- //
 // Display Comments
-firebase.database().ref('comments/1/').on('value',function(comments){
+firebase.database().ref('comments/<%= blogId %>/').on('value',function(comments){
             var content = "";
             comments.forEach(function(firebaseCommentReference){
                 var comment = firebaseCommentReference.val();                         
@@ -339,4 +338,3 @@ firebase.database().ref('comments/1/').on('value',function(comments){
   </body>
   
   </html>
-  

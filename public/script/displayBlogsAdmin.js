@@ -70,7 +70,6 @@ function delete_blog(childKey,blogID,blogTitle){
                 firebase.storage().ref().child(`blogImages/${blogID}`).delete(),
                 firebase.database().ref().child(`Blogs/${childKey}/`).remove(),
                 firebase.database().ref().child(`comments/${blogID}/`).remove(),
-                deleteData('/delete', { id: blogID, title: blogTitle})
                 $( this ).dialog( "close" );
             },
             Cancel: function() {
@@ -78,24 +77,6 @@ function delete_blog(childKey,blogID,blogTitle){
             }
         }
     });
-}
-const deleteData = async (url = '', data = {}) => {
-    console.log(data);
-    const response = await fetch(url, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-    });
-    try {
-        const newData = await response.json();
-        return newData;
-    }
-    catch (error) {
-        console.log("Error in PostData", error);
-    }
 }
 
 // delete a comment

@@ -106,41 +106,12 @@ function saveBlog(Title, addBlogContent, id, imageFile) {
             // Data saved successfully!
             isSavedDatabase = true;
             console.log("Blog added successfully!");
-            savePage(id, Title);
+            finalCall();
         }
     });
     
   }
-  function savePage(id, Title) {
-    // Function to POST data
-    postData('/add', { id: id, title: Title });
-    finalCall();
-  }
 
-  const postData = async (url = '', data = {}) => {
-    console.log(data);
-    const response = await fetch(url, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data),
-    });
-    try {
-      const newData = await response.json();
-      return newData;
-    }
-    catch (error) {
-      console.log("Error in PostData", error);
-      var notification = document.querySelector('.mdl-js-snackbar');
-            var data = {
-                message: `Error in PostData: ${error}`,
-                timeout: 5000,
-              };
-              notification.MaterialSnackbar.showSnackbar(data);
-    }
-  }
   function finalCall() {
     // Show alert
     var notification = document.querySelector('.mdl-js-snackbar');
